@@ -25,6 +25,8 @@ integers vs. floats
 
 """
 
+SITE_ENDPOINT = "http://budongsanbud-halmidor.rhcloud.com/comm?"
+
 conversion = {
 "A" : "hi_limit",
 "B" : "low_limit",
@@ -48,9 +50,14 @@ def determine_serial_port():
     except:
         print "No Serial connection detected"
 
+
+def send_info_to_endpoint(to_send):
+    send_frame = "%s" % to_send
+    resp = requests.get(SITE_ENDPOINT + "%s")
+    return resp.content()
+
 ser_conn = serial.Serial('/dev/serial/by-path/platform-3f980000.usb-usb-0:1.2:1.0-port0',9600)
 
 while True:
     print ser_conn.readline()
     ser_conn.write("A 54.4")
-    print "EOFEOFEOF"
